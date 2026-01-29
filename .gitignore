@@ -3,3 +3,14 @@ install/
 log/
 .vscode/
 .DS_Store
+
+# local venvs
+.venv/
+**/.venv/
+__pycache__/
+*.pyc
+
+# elevation_mapping local artifacts
+src/elevation_mapping_cupy/.venv/
+src/elevation_mapping_cupy/frames_*.gv
+src/elevation_mapping_cupy/frames_*.pdf
