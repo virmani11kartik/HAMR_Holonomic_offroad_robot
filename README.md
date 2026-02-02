@@ -138,16 +138,3 @@ ros2 run reference_trajectory waypoint_traj_simple
 
 Kartik Virmani
 University of Pennsylvania – ModLab
-Holonomic Robotics · Control · State Estimation · Autonomy
-
-
----
-
-If you want, next I can:
-- tighten this for **public GitHub / recruiters**
-- add **figures/GIF embeds** from `hamr_holonomic_robot/img`
-- split into **Simulation vs Hardware Quick Start**
-- add **citation / paper section**
-
-Just tell me 👍
-::contentReference[oaicite:0]{index=0}
