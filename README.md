@@ -1,140 +1,210 @@
 # HAMR Workspace (ROS 2 Jazzy)
 
-**HAMR (Holonomic Affordable Mobile Robot)** is a modular holonomic mobile robot developed at the  
-**University of Pennsylvania – ModLab**, designed for **off-road omnidirectional locomotion** with a **stabilized torso / turret**.
+**HAMR (Holonomic Affordable Mobile Robot)** is a modular holonomic
+mobile robot developed at the\
+**University of Pennsylvania -- ModLab**, designed for off-road
+omnidirectional locomotion with active torso stabilization.
 
-This repository is the **top-level development workspace** that integrates:
-- low-level motor control and state estimation,
-- high-level holonomic planning and control in ROS 2,
-- terrain mapping and traversability research.
+This repository is the top-level research and development workspace
+integrating:
 
----
+-   Low-level embedded motor control and probabilistic state estimation\
+-   ROS 2 Jazzy holonomic planning and control\
+-   Off-road simulation and terrain-aware navigation\
+-   GPU-accelerated elevation mapping\
+-   Traversability optimization research
 
-## 📂 Repository Structure
+------------------------------------------------------------------------
 
+## Repository Structure
+
+``` bash
 hamr_ws/
-├── HAMR_Controller/ # Low-level control, EKF, odometry, PID
+├── HAMR_Controller/              # Embedded control + state estimation
 ├── src/
-│ ├── hamr_holonomic_robot # ROS 2 Jazzy stack (planning, control, sim)
-│ └── elevation_mapping_cupy # Elevation mapping (vendored, locally modified)
-├── test_codes/ # Experiments, planners, plots
+│   ├── hamr_holonomic_robot      # ROS 2 Jazzy stack (planning, control, sim)
+│   └── elevation_mapping_cupy    # GPU elevation mapping (locally modified)
+├── test_codes/                   # Experimental planners and analysis
 └── README.md
+```
 
+------------------------------------------------------------------------
 
----
+## Related Repository
 
-## 🔗 Related Repositories
+High-level holonomic stack (forked & extended):
 
-- **High-level planner & ROS 2 stack**  
-  https://github.com/cedrichld/hamr_holonomic_robot/tree/kartik  
+https://github.com/cedrichld/hamr_holonomic_robot/tree/kartik
 
-This workspace **extends and integrates** the above stack with hardware-oriented control, probabilistic state estimation, and off-road experimentation.
+This workspace extends that stack with:
 
----
+-   Hardware-oriented control\
+-   Probabilistic odometry\
+-   EKF-based fusion\
+-   Off-road terrain reasoning\
+-   Embedded deployment support
 
-## 🧠 Subsystems Overview
+------------------------------------------------------------------------
 
-### 1️⃣ Low-Level Control & State Estimation  
-📁 `HAMR_Controller/`
+# System Overview
 
-- Holonomic drive motor control (PID)
-- Encoder-based probabilistic odometry motion model
-- EKF-based sensor fusion (Encoders + IMU)
-- Hardware-oriented control loops (ESP32, IMU, encoders)
+## 1. Low-Level Control & Probabilistic State Estimation
 
-➡️ See `HAMR_Controller/README.md` for:
-- Motion model derivation
-- Noise modeling
-- EKF equations
-- PID tuning details
+Directory: `HAMR_Controller/`
 
----
+Implemented Features:
 
-### 2️⃣ Holonomic Planning & Control (ROS 2 Jazzy)  
-📁 `src/hamr_holonomic_robot/`
+-   Holonomic drive motor PID control (per-wheel velocity loops)\
+-   Probabilistic odometry motion model\
+-   Covariance propagation for encoder-based motion\
+-   EKF-based sensor fusion (Encoders + IMU)\
+-   Tunable noise parameters (alpha-based motion uncertainty model)\
+-   Real-time firmware for ESP32-based control\
+-   Encoder interrupt handling and high-rate velocity estimation
 
-- URDF / Xacro robot description
-- Gazebo off-road simulation (heightmaps)
-- Jacobian-based holonomic controller
-- PRM / A* path planning
-- Waypoint-based reference trajectories
-- Turret + gimbal stabilization
+Research Contributions:
 
-➡️ See `src/hamr_holonomic_robot/README.md` for:
-- Kinematics and mobility ellipsoid
-- Simulation & hardware results
-- ROS topics and interfaces
+-   Explicit covariance modeling of holonomic motion\
+-   Encoder noise characterization and parameter tuning\
+-   Fusion-ready state representation for ROS 2 integration\
+-   Modular architecture for future UKF / factor-graph upgrades
 
----
+See `HAMR_Controller/README.md` for detailed derivations and tuning
+notes.
 
-### 3️⃣ Terrain Mapping & Traversability  
-📁 `src/elevation_mapping_cupy/`
+------------------------------------------------------------------------
 
-- GPU-accelerated elevation mapping
-- Terrain representation for rough environments
-- Used for future **holonomic traversability optimization**
+## 2. Holonomic Planning & Control (ROS 2 Jazzy)
 
-> This package is **vendored** (no upstream push access) and locally modified for HAMR.
+Directory: `src/hamr_holonomic_robot/`
 
----
+Implemented Components:
 
-## 🛠️ Technologies Used
+-   URDF/Xacro robot description\
+-   Holonomic kinematics and Jacobian-based controller\
+-   Gazebo (gz sim) off-road simulation using heightmaps\
+-   PRM and A\* planners\
+-   Waypoint-based trajectory tracking\
+-   Turret/gimbal stabilization under base motion\
+-   Modular ROS 2 node architecture
 
-- **ROS 2 Jazzy**
-- **C++ / Python**
-- **EKF / UKF**
-- **Gazebo (gz sim)**
-- **ESP32, IMU, Encoders**
-- **Additive Manufacturing + CNC**
-- **GPU Elevation Mapping**
+Research Focus:
 
----
+-   Mobility ellipsoid analysis\
+-   Holonomic maneuverability in constrained environments\
+-   Off-road heightmap traversal performance\
+-   Planner performance benchmarking
 
-## 📊 Project Slides & Documentation
+See `src/hamr_holonomic_robot/README.md` for full details.
 
-📽️ **Project Slides (Design, Control, Results)**  
-👉 Google Slides:  
-PASTE_GOOGLE_SLIDES_LINK_HERE
+------------------------------------------------------------------------
 
-(Optional badge)
-```md
-[![Slides](https://img.shields.io/badge/Slides-Google%20Slides-orange)](PASTE_GOOGLE_SLIDES_LINK_HERE)
+## 3. Terrain Mapping & Traversability
 
-🚀 Build & Run (ROS 2 Jazzy)
-Build Workspace
+Directory: `src/elevation_mapping_cupy/`
 
+GPU-accelerated elevation mapping used for:
+
+-   Heightmap construction\
+-   Terrain representation\
+-   Rough terrain navigation research\
+-   Future traversability-aware holonomic optimization
+
+Planned Extensions:
+
+-   Traversability cost layers\
+-   Friction-aware motion modeling\
+-   Integration with sampling-based planners\
+-   Gradient-based trajectory optimization over elevation maps
+
+------------------------------------------------------------------------
+
+# Current Capabilities
+
+-   Holonomic trajectory tracking (square, triangle, circle)\
+-   PRM + A\* maze navigation\
+-   Heightmap-based simulation testing\
+-   Stabilized turret orientation during aggressive base motion\
+-   Probabilistic odometry with covariance propagation\
+-   EKF fusion of IMU and encoder data\
+-   Real-time ROS 2 Jazzy integration
+
+------------------------------------------------------------------------
+
+# Build & Run (ROS 2 Jazzy)
+
+## Build Workspace
+
+``` bash
 cd ~/hamr_ws
 colcon build --symlink-install
 source install/setup.bash
+```
 
-Run Simulation
+## Launch Simulation
 
+``` bash
 ros2 launch hamr_bringup compa.launch.xml
+```
 
-Run Reference Trajectory
+## Run Reference Trajectory
 
+``` bash
 ros2 run reference_trajectory waypoint_traj_simple
+```
 
-🧪 Experiments & Results
+------------------------------------------------------------------------
 
-    Square / Triangle / Circle holonomic trajectories
+# Experimental Results
 
-    Maze navigation with PRM + A*
+-   Square / Triangle / Circular holonomic tracking\
+-   Maze navigation using PRM + A\*\
+-   Off-road heightmap traversal\
+-   Turret stabilization under base acceleration\
+-   Covariance growth analysis under encoder noise
 
-    Off-road heightmap traversal
+Quantitative metrics are provided in the respective sub-READMEs.
 
-    Stable turret orientation under base motion
+------------------------------------------------------------------------
 
-(See sub-READMEs for plots, videos, and metrics.)
-📌 Notes
+# Technologies
 
-    build/, install/, log/ are intentionally ignored
+-   ROS 2 Jazzy\
+-   C++ and Python\
+-   Extended Kalman Filter (EKF)\
+-   Gazebo (gz sim)\
+-   ESP32 embedded firmware\
+-   IMU + Quadrature encoders\
+-   GPU acceleration (CuPy)\
+-   Additive manufacturing and CNC fabrication
 
-    elevation_mapping_cupy is tracked as plain source (not a submodule)
+------------------------------------------------------------------------
 
-    hamr_holonomic_robot remains a submodule for upstream synchronization
+# Documentation & Slides
 
-👤 Author
+Project slides (Design, Control, Results):
 
-Kartik Virmani
-University of Pennsylvania – ModLab
+PASTE_GOOGLE_SLIDES_LINK_HERE
+
+Optional badge:
+
+[![Slides](https://img.shields.io/badge/Slides-Google%20Slides-orange)](PASTE_GOOGLE_SLIDES_LINK_HERE)
+
+------------------------------------------------------------------------
+
+# Development Notes
+
+-   build/, install/, and log/ are intentionally ignored\
+-   elevation_mapping_cupy is tracked as source (not submodule)\
+-   hamr_holonomic_robot remains a submodule for upstream
+    synchronization\
+-   Workspace structured for hardware + simulation dual testing
+
+------------------------------------------------------------------------
+
+# Author
+
+Kartik Virmani\
+University of Pennsylvania -- ModLab\
+Mechanical Engineering & Applied Mechanics\
+Robotics and Mechatronics Research
