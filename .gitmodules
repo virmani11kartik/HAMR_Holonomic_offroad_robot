@@ -1,3 +1,4 @@
 [submodule "src/hamr_holonomic_robot"]
 	path = src/hamr_holonomic_robot
 	url = https://github.com/cedrichld/hamr_holonomic_robot.git
+	branch = kartik
